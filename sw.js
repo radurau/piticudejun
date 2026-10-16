@@ -9,6 +9,9 @@ const CORE = [
   'js/views/home.js', 'js/views/songs.js', 'js/views/artists.js', 'js/views/artist.js', 'js/views/song.js',
   'js/views/episodes.js', 'js/views/episode.js', 'js/views/year.js', 'js/views/search.js', 'js/views/dm.js',
   'js/views/wrapped.js', 'js/views/setlist.js',
+  'css/setlist.css',
+  'js/views/setlist/store.js', 'js/views/setlist/insights.js', 'js/views/setlist/drag.js',
+  'js/views/setlist/onair.js', 'js/views/setlist/duration.js', 'js/views/setlist/icons.js',
 ];
 
 self.addEventListener('install', (e) => {
