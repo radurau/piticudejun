@@ -266,6 +266,9 @@
   letter-spacing: .06em; text-transform: uppercase;
 }
 .v-setlist .sl-toast:not(:has(.sl-undo)) { padding-right: 18px; }
+/* over the cue sheet, toasts drop in from the top so they never cover the big Next button */
+.sl-host:has(.sl-air:not([hidden])) .sl-toast { top: calc(96px + env(safe-area-inset-top)); bottom: auto; transform: translate(-50%, -16px); }
+.sl-host:has(.sl-air:not([hidden])) .sl-toast.on { transform: translate(-50%, 0); }
 
 /* ------------------------------------------------------------ on-air cue sheet */
 .v-setlist .sl-air {

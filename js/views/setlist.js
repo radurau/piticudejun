@@ -67,8 +67,8 @@ export default {
         <aside class="sl-side" id="sl-side" aria-label="Suggestions"></aside>
       </div>
     </div>`);
-    // The toast and the cue sheet live on <body>: <main> has a view-transition-name, which makes it
-    // a stacking context, so fixed layers inside it would sit under the app bar and tab bar.
+    // The toast and the cue sheet live on <body>, outside .app, so presenter-mode zoom and the page
+    // transition snapshot of <main> never touch them.
     document.querySelectorAll('.sl-host').forEach((h) => h.remove());
     const host = document.createElement('div');
     host.className = 'v-setlist sl-host';
@@ -398,7 +398,7 @@ export default {
         case 'up': move(i, i - 1); break;
         case 'down': move(i, i + 1); break;
         case 'remove': remove(i); break;
-        case 'air': if (air.open()) setQuery(path, { air: 1 }); break;
+        case 'air': clearTimeout(toastTimer); host.querySelector('#sl-toast').classList.remove('on'); if (air.open()) setQuery(path, { air: 1 }); break;
         case 'copy-text': copyText(); break;
         case 'reset-air': set().air = null; persist(); redraw({ side: false }); toast('Show reset: nothing marked as played'); break;
         case 'copy-link': S.copy(S.shareUrl(db, set())).then((ok) => toast(ok ? 'Link copied: send it to Dan' : 'Could not copy the link')); break;
