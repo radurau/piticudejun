@@ -568,7 +568,7 @@ dialog.sheet::backdrop { background: rgba(6, 4, 10, .55); backdrop-filter: blur(
 ::view-transition-new(main) { animation: vt-in .42s var(--ease-out) both; }
 @keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
 @keyframes vt-in { from { opacity: 0; transform: translateY(14px); } }
-.view { view-transition-name: main; }
+.view.vt { view-transition-name: main; } /* set by the router during a page transition only */
 
 @media (prefers-reduced-motion: reduce) {
   .hero::before, .eq i, .ticker-in, .dot, .pv[data-state="loading"] .pv-ring { animation: none; }

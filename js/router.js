@@ -75,8 +75,14 @@ export function startRouter({ db, root, appName = 'Piticu Dejun 400' }) {
     };
     const first = lastPath === null;
     const animate = !first && path !== lastPath && document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (animate) await document.startViewTransition(swap).updateCallbackDone;
-    else swap();
+    if (animate) {
+      // <main> carries its view-transition-name only while a transition runs: a permanent name makes
+      // it a stacking context, which would trap fixed layers (overlays, toasts) under the app chrome.
+      root.classList.add('vt');
+      const t = document.startViewTransition(swap);
+      t.finished.finally(() => { if (my === seq) root.classList.remove('vt'); });
+      await t.updateCallbackDone;
+    } else { root.classList.remove('vt'); swap(); }
     // Move focus to the new page: an [autofocus] control if the view has one, else its h1.
     const target = root.querySelector('[autofocus]') || (!first && (root.querySelector('h1') || root));
     if (target) target.focus({ preventScroll: true });
