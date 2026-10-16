@@ -27,7 +27,7 @@ export default {
     ensureCss();
     const cx = I.context(db);
     let st = S.load();
-    let shared = query.get('s') != null ? { items: S.decode(db, query.get('s')), name: query.get('n') || 'Shared set' } : null;
+    let shared = query.get('s') != null ? { items: S.decode(db, query.get('s')), name: (query.get('n') || '').trim().slice(0, 40) || 'Shared set' } : null;
     let openRow = null, toastTimer = 0, surpriseSong = null;
     const cleanups = [];
 

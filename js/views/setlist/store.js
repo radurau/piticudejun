@@ -96,12 +96,14 @@ export function encode(db, items) {
   }).join('.');
 }
 
+// A shared link is untrusted input: cap the number of songs and the length of free-text names.
+export const MAX_SHARED = 60, MAX_TEXT = 200;
 export function decode(db, s) {
   const out = [];
-  for (const tok of String(s || '').split('.').filter(Boolean)) {
+  for (const tok of String(s || '').split('.').filter(Boolean).slice(0, MAX_SHARED)) {
     try {
       if (tok[0] === '*' || tok[0] === '~') {
-        const [a, t] = b64d(tok.slice(1)).split('\u0001');
+        const [a, t] = b64d(tok.slice(1, 4 * MAX_TEXT)).split('\u0001').map((x) => x?.trim().slice(0, MAX_TEXT));
         if (a && t) { const song = findSong(db, a, t); out.push(song ? { k: song.key } : { a, t }); }
       } else if (/^[0-9a-z]{3}$/.test(tok)) {
         const ep = db.byN.get(parseInt(tok.slice(0, 2), 36));
