@@ -23,7 +23,7 @@
   :root:not([data-theme="dark"]) {
     --bg: #F6F1E8; --bg-glow: #FBD9C4; --surface: #FFFFFF; --surface-2: #EFE8DC; --surface-3: #E5DCCD;
     --line: #DCD3C4; --text: #17131F; --text-2: #5E566B; --text-3: #645C6F;
-    --onair: #C41F10; --amber: #915600; --violet: #5B4BE0; --violet-soft: rgba(91, 75, 224, .12);
+    --onair: #C41F10; --amber: #915600; --violet: #5242D6; --violet-soft: rgba(91, 75, 224, .12);
     --meter: linear-gradient(90deg, #E59A1A 0%, #E2611F 55%, #D8261A 100%);
     --meter-v: linear-gradient(0deg, #E59A1A 0%, #E2611F 55%, #D8261A 100%);
     --heat-0: #EFE8DC; --heat-1: #F6D2B0; --heat-2: #EFA36A; --heat-3: #E2611F; --heat-4: #B8300F;
@@ -35,7 +35,7 @@
 :root[data-theme="light"] {
   --bg: #F6F1E8; --bg-glow: #FBD9C4; --surface: #FFFFFF; --surface-2: #EFE8DC; --surface-3: #E5DCCD;
   --line: #DCD3C4; --text: #17131F; --text-2: #5E566B; --text-3: #645C6F;
-  --onair: #C41F10; --amber: #915600; --violet: #5B4BE0; --violet-soft: rgba(91, 75, 224, .12);
+  --onair: #C41F10; --amber: #915600; --violet: #5242D6; --violet-soft: rgba(91, 75, 224, .12);
   --meter: linear-gradient(90deg, #E59A1A 0%, #E2611F 55%, #D8261A 100%);
   --meter-v: linear-gradient(0deg, #E59A1A 0%, #E2611F 55%, #D8261A 100%);
   --heat-0: #EFE8DC; --heat-1: #F6D2B0; --heat-2: #EFA36A; --heat-3: #E2611F; --heat-4: #B8300F;
@@ -156,6 +156,7 @@ h1:focus { outline: none; }
 .stat .n { font: 800 clamp(28px, 8.4vw, 48px)/1 var(--f-display); letter-spacing: -.03em; margin-top: 14px; white-space: nowrap; }
 .stat .n small { font-size: .45em; letter-spacing: 0; margin-left: 2px; color: var(--text-2); }
 .stat .cap { color: var(--text-2); font-size: 13px; margin-top: 8px; line-height: 1.35; }
+.stat .cap a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; } /* not by colour alone */
 .stat .glyph { position: absolute; right: 12px; top: 12px; width: 24px; height: 24px; color: var(--text-3); }
 .stat.hot { background: linear-gradient(160deg, color-mix(in oklab, var(--onair) 24%, var(--surface)) 0%, var(--surface) 72%);
   border-color: color-mix(in oklab, var(--onair) 40%, var(--line)); }
@@ -303,7 +304,8 @@ button.pv:active { transform: scale(.94); }
 }
 .btn:hover { background: var(--surface-3); }
 .btn:active { transform: scale(.97); }
-.btn.primary { background: var(--onair); border-color: var(--onair); color: #fff; }
+/* the dark-theme red is too light for white 14px text (3.5:1); deepen it a touch on buttons only */
+.btn.primary { --btn-red: color-mix(in oklab, var(--onair) 84%, #000); background: var(--btn-red); border-color: var(--btn-red); color: #fff; }
 .more-wrap { display: flex; justify-content: center; padding: 12px 0 6px; }
 
 /* ============================================================ home hero */

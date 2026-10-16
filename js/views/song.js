@@ -44,7 +44,7 @@ export default {
       <section class="sec" aria-labelledby="h-tl">
         ${secHead({ kicker: 'Every play', title: 'On the timeline', id: 'h-tl' })}
         <div class="card pad rv">
-          <div class="timeline" role="img" aria-label="Plays from ${fmtDate(db.aired[0].date)} to ${fmtDate(db.aired.at(-1).date)}: ${s.plays.map((p) => `#${p.ep.n}`).join(', ')}">
+          <div class="timeline" role="group" aria-label="Plays from ${fmtDate(db.aired[0].date)} to ${fmtDate(db.aired.at(-1).date)}: ${s.plays.map((p) => `#${p.ep.n}`).join(', ')}">
             ${s.plays.map((p) => html`<a class="${p.ep.regular ? '' : 'special'}" href="${href.episode(p.ep)}" data-tip="#${p.ep.n} · ${fmtDate(p.ep.date)} · track ${p.slot}"
               style="left:${(((D.parseDate(p.ep.date) - first) / span) * 100).toFixed(2)}%" aria-label="Episode ${p.ep.n}, ${fmtDate(p.ep.date)}"></a>`)}
           </div>
