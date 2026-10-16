@@ -28,7 +28,7 @@ export default {
         ${e.tracks.length ? html`<div class="card"><ol class="rank">${e.tracks.map((p, k) => songRow(p.song, {
           slot: p.slot,
           badge: p.debut ? html`<span class="badge">debut</span>` : null,
-          meta: p.debut ? 'first time on the show' : `${plural(p.song.plays.length, 'play')} all-time`,
+          meta: p.debut ? 'first time on the show' : `${plural(p.song.plays.length, 'play')} in the archive`,
         }, k))}</ol></div>` : emptyState('This episode is in the archive, but its playlist is unknown.')}
       </section>
       <nav class="pager" aria-label="Neighbouring episodes">

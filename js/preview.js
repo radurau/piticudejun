@@ -119,7 +119,7 @@ function showMini(cur) {
   const h = cur.hit;
   mini.innerHTML = String(html`
     <div class="art">${h.art ? html`<img src="${h.art}" alt="" width="44" height="44">` : ''}</div>
-    <div class="tt"><div class="s">${cur.song}</div><div class="a credit">${cur.artist} · Preview via Apple Music</div></div>
+    <div class="tt"><div class="s">${cur.song} <span class="muted" style="font-weight:500">· ${cur.artist}</span></div><div class="a credit">Preview via Apple Music</div></div>
     ${h.v ? html`<a class="am-link" href="${h.v}" target="_blank" rel="noopener" aria-label="Open ${cur.song} in Apple Music (opens new tab)">${icon('am')}<span>Apple Music</span></a>` : ''}
     <button type="button" class="icon-btn" data-stop aria-label="Stop preview">${icon('stop')}</button>
     <div class="prog" aria-hidden="true"><i></i></div>`);

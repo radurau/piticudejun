@@ -110,7 +110,8 @@ export function songRow(song, opts = {}, i = 0) {
     ${cover(song.artist.name, { song })}
     <div class="tt">
       <div class="s"><a href="${href.song(song)}">${song.title}</a>${badge}</div>
-      ${showArtist || meta ? html`<div class="a">${showArtist ? html`<a href="${href.artist(song.artist)}"><b>${song.artist.name}</b></a>` : ''}${showArtist && meta ? ' · ' : ''}${meta}</div>` : ''}
+      ${showArtist ? html`<div class="a"><a href="${href.artist(song.artist)}"><b>${song.artist.name}</b></a></div>` : ''}
+      ${meta ? html`<div class="${showArtist ? 'm' : 'a'}">${meta}</div>` : ''}
       ${n != null && max ? meter(n, max, { dl: 200 + Math.min(i, 12) * 60 }) : ''}
     </div>
     ${listenButtons(song)}
