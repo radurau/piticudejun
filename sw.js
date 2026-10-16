@@ -1,6 +1,6 @@
 // Service worker: stale-while-revalidate for app files and data, cached Google Fonts.
 // iTunes search results and preview audio are never cached here (the page caches lookups itself).
-const VERSION = 'pd-2026-10-16b';
+const VERSION = 'pd-2026-10-16c'; // bump on every app release: the old app cache is dropped on activate
 const APP_CACHE = `app-${VERSION}`;
 const FONT_CACHE = 'fonts-v1';
 const CORE = [
@@ -16,7 +16,7 @@ const CORE = [
 ];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(APP_CACHE).then((c) => Promise.allSettled(CORE.map((u) => c.add(u)))).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(APP_CACHE).then((c) => Promise.allSettled(CORE.map((u) => c.add(new Request(u, { cache: 'reload' }))))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {
