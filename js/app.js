@@ -5,6 +5,7 @@ import { initPreview } from './preview.js';
 import { html } from './ui.js';
 
 const root = document.getElementById('main');
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; // the router scrolls to top per page
 const doc = document.documentElement;
 
 // ---------------------------------------------------------------- theme
