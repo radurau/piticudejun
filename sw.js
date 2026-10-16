@@ -1,6 +1,6 @@
 // Service worker: stale-while-revalidate for app files and data, cached Google Fonts.
 // iTunes search results and preview audio are never cached here (the page caches lookups itself).
-const VERSION = 'pd-2026-10-16';
+const VERSION = 'pd-2026-10-16b';
 const APP_CACHE = `app-${VERSION}`;
 const FONT_CACHE = 'fonts-v1';
 const CORE = [
@@ -9,6 +9,7 @@ const CORE = [
   'js/views/home.js', 'js/views/songs.js', 'js/views/artists.js', 'js/views/artist.js', 'js/views/song.js',
   'js/views/episodes.js', 'js/views/episode.js', 'js/views/year.js', 'js/views/search.js', 'js/views/dm.js',
   'js/views/wrapped.js', 'js/views/setlist.js',
+  'css/wrapped.css', 'js/views/wrapped/stats.js', 'js/views/wrapped/slides.js',
   'css/setlist.css',
   'js/views/setlist/store.js', 'js/views/setlist/insights.js', 'js/views/setlist/drag.js',
   'js/views/setlist/onair.js', 'js/views/setlist/duration.js', 'js/views/setlist/icons.js',
