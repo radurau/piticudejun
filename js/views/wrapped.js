@@ -39,7 +39,7 @@ export default {
 
     root.innerHTML = String(html`<div class="v-wrapped ${RM ? 'rm' : ''}" data-theme-now="${slides[idx].theme}">
       <div class="wr-amb" aria-hidden="true">${slides.map((s, i) => html`<i class="t-${s.theme}" data-i="${i}"></i>`)}</div>
-      <div class="wr-frame" role="region" aria-roledescription="story" aria-label="Piticu Wrapped${year ? ` ${year}` : ''}">
+      <div class="wr-frame" tabindex="-1" autofocus role="region" aria-roledescription="story" aria-label="Piticu Wrapped${year ? ` ${year}` : ''}">
         <div class="wr-stage">
           ${slides.map((s, i) => html`<section class="wr-slide t-${s.theme}" data-i="${i}" data-id="${s.id}" role="group"
               aria-roledescription="slide" aria-label="${i + 1} of ${slides.length}: ${s.label}" style="--dur:${s.dur || 7000}ms">

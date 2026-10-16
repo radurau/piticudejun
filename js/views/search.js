@@ -46,5 +46,6 @@ export default {
       if (b) { input.value = b.dataset.q; setQuery(path, { q: b.dataset.q }); draw(); input.focus(); }
     });
     draw();
+    return () => clearTimeout(timer); // a pending keystroke must not rewrite the next page's URL
   },
 };
