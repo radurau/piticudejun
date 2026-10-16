@@ -289,10 +289,11 @@ export function dmTracker(db) {
 }
 
 // ---------------------------------------------------------------- calendar & freshness
-/** One cell per Monday since 2020-04-13, grouped by year; col = Monday index within the year. */
+/** One cell per Monday since 2020-04-13, grouped by year; col = Monday index within the year.
+ *  cell.eps lists every show that week (#329 and the Friday special #330 share one); cell.ep is the first. */
 export function heatmap(db, until = null) {
   const byWeek = new Map();
-  for (const e of db.aired) byWeek.set(mondayOf(e.date), e);
+  for (const e of db.aired) { const k = mondayOf(e.date); if (!byWeek.has(k)) byWeek.set(k, []); byWeek.get(k).push(e); }
   const end = mondayOf(until || lastOf(db.aired).date);
   const years = new Map();
   for (let d = FIRST_MONDAY; d <= end; d = addDays(d, 7)) {
@@ -300,7 +301,8 @@ export function heatmap(db, until = null) {
     const firstMonday = mondayOf(`${y}-01-07`);
     const col = Math.round(daysBetween(firstMonday, d) / 7);
     if (!years.has(y)) years.set(y, []);
-    years.get(y).push({ monday: d, col, ep: byWeek.get(d) || null });
+    const eps = byWeek.get(d) || [];
+    years.get(y).push({ monday: d, col, ep: eps[0] || null, eps });
   }
   const max = Math.max(...db.aired.map((e) => e.tracks.length));
   return { max, years: [...years].map(([year, cells]) => ({ year, cells })) };

@@ -18,8 +18,8 @@ export function heatmapCard(db, { years = null } = {}) {
             if (!c) return html`<span class="cell pad"></span>`;
             if (!c.ep) return html`<span class="cell missing" data-tip="Week of ${fmtDate(c.monday)} · not archived"></span>`;
             const e = c.ep;
-            return html`<a class="cell ${e.special ? 'special' : ''}" data-l="${level(e)}" href="${href.episode(e)}" tabindex="-1"
-              data-tip="#${e.n} · ${fmtDate(e.date)} · ${e.special || plural(e.tracks.length, 'track')}"></a>`;
+            const tip = c.eps.map((x) => `#${x.n} · ${fmtDate(x.date)} · ${x.special || plural(x.tracks.length, 'track')}`).join('  +  ');
+            return html`<a class="cell ${e.special ? 'special' : ''} ${c.eps.length > 1 ? 'double' : ''}" data-l="${level(e)}" href="${href.episode(e)}" tabindex="-1" data-tip="${tip}"></a>`;
           })}</div></div>`;
       })}
     </div>

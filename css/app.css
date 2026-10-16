@@ -639,3 +639,4 @@ dialog.sheet::backdrop { background: rgba(6, 4, 10, .55); backdrop-filter: blur(
   .ep-card ol li:nth-child(n+2) { display: none; }
   .ep-card .badge { white-space: normal; text-align: left; line-height: 1.2; }
 }
+.cell.double { box-shadow: 0 0 0 2px var(--violet); }
