@@ -29,11 +29,26 @@ function score(r, artist, song) {
   return t ? a + t : 0;
 }
 
-/** Resolve { previewUrl, trackViewUrl, artwork } for a song, or null. Cached in localStorage. */
-export async function lookup(artist, song) {
+/**
+ * The cached iTunes answer for a song: { u, v, art, n, ar, ms, t } (u = null for a miss), or undefined
+ * when nothing fresh is cached. With needMs, entries saved before track lengths were kept count as stale.
+ */
+export function cachedLookup(artist, song, { needMs = false } = {}) {
+  const c = lsGet('pd:it:' + keyOf(artist, song));
+  if (!c || Date.now() - c.t >= (c.u ? CACHE_DAYS : MISS_DAYS) * 864e5) return undefined;
+  if (needMs && c.u && !('ms' in c)) return undefined;
+  return c;
+}
+
+/**
+ * Resolve { u: previewUrl, v: trackViewUrl, art, ms: trackTimeMillis } for a song, or null. Cached in
+ * localStorage. This is the only place that calls the iTunes Search API, so previews and the set
+ * builder's track lengths share one rate limit. Throws Error('rate') when the minute's budget is spent.
+ */
+export async function lookup(artist, song, { needMs = false } = {}) {
   const k = 'pd:it:' + keyOf(artist, song);
-  const c = lsGet(k);
-  if (c && Date.now() - c.t < (c.u ? CACHE_DAYS : MISS_DAYS) * 864e5) return c.u ? c : null;
+  const c = cachedLookup(artist, song, { needMs });
+  if (c) return c.u ? c : null;
   const now = Date.now();
   while (recent.length && now - recent[0] > 60000) recent.shift();
   if (recent.length >= PER_MINUTE) throw new Error('rate');
@@ -45,7 +60,7 @@ export async function lookup(artist, song) {
   let best = null, bestScore = 0;
   for (const r of results) { const s = score(r, artist, song); if (s > bestScore) { best = r; bestScore = s; } }
   const hit = best && bestScore >= 3.5
-    ? { u: best.previewUrl, v: best.trackViewUrl, art: (best.artworkUrl100 || '').replace('100x100bb', '200x200bb'), n: best.trackName, ar: best.artistName, t: now }
+    ? { u: best.previewUrl, v: best.trackViewUrl, art: (best.artworkUrl100 || '').replace('100x100bb', '200x200bb'), n: best.trackName, ar: best.artistName, ms: best.trackTimeMillis || null, t: now }
     : { u: null, t: now };
   lsSet(k, hit);
   return hit.u ? hit : null;

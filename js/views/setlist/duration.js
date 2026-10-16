@@ -1,43 +1,36 @@
-// Track lengths for the runtime estimate. js/preview.js caches only the preview URL of an iTunes
-// match (not trackTimeMillis), so this asks the same iTunes Search API, matching with the same
-// scoring as preview.js, and caches { ms } per song. Slow and polite: one request every 1.5 s,
-// at most 10 a minute, so the 30-second previews keep their share of the rate limit.
+// Track lengths for the runtime estimate. They come from the same iTunes match as the 30-second
+// previews: js/preview.js lookup() keeps trackTimeMillis in its localStorage cache, so a song whose
+// preview was played already has a length, and every request shares preview.js's rate limit.
+// Slow and polite on top of that: one request every 1.5 s and at most 10 a minute from here, so the
+// previews always keep their share of the budget.
 import { norm } from '../../data.js';
-import { _test as P } from '../../preview.js';
+import { lookup, cachedLookup } from '../../preview.js';
 
-const PREFIX = 'pd:sl:dur:';
-const HIT_DAYS = 90, MISS_DAYS = 7, GAP_MS = 1500, PER_MIN = 10;
+const OLD_PREFIX = 'pd:sl:dur:'; // lengths cached by earlier versions, still honoured
+const OLD_HIT_DAYS = 90, GAP_MS = 1500, PER_MIN = 10, RATE_BACKOFF_MS = 15000;
 const keyOf = (artist, song) => norm(artist) + '|' + norm(song);
-const mem = new Map();
+const mem = new Map(); // key -> { ms } for answers in this session (and old-cache hits)
 const recent = [];
 let queue = [], busy = false, listeners = new Set();
 
-function read(k) {
+/** { ms } if the length is known or known to be unavailable, else null (not looked up yet). */
+function read(artist, song) {
+  const k = keyOf(artist, song);
   if (mem.has(k)) return mem.get(k);
-  let c = null;
-  try { c = JSON.parse(localStorage.getItem(PREFIX + k)); } catch { c = null; }
-  if (c && Date.now() - c.t < (c.ms ? HIT_DAYS : MISS_DAYS) * 864e5) { mem.set(k, c); return c; }
+  const c = cachedLookup(artist, song, { needMs: true });
+  if (c) { const v = { ms: c.ms || null }; mem.set(k, v); return v; }
+  let old = null;
+  try { old = JSON.parse(localStorage.getItem(OLD_PREFIX + k)); } catch { old = null; }
+  if (old?.ms && Date.now() - old.t < OLD_HIT_DAYS * 864e5) { const v = { ms: old.ms }; mem.set(k, v); return v; }
   return null;
-}
-function write(k, v) {
-  mem.set(k, v);
-  try { localStorage.setItem(PREFIX + k, JSON.stringify(v)); } catch { /* storage blocked */ }
 }
 
 /** Known length in ms, or null (unknown / not looked up yet). */
 export function durationOf(artist, song) {
-  return read(keyOf(artist, song))?.ms || null;
+  return read(artist, song)?.ms || null;
 }
 
-async function fetchOne({ artist, song }) {
-  const term = `${P.mainArtist(artist)} ${P.clean(song)}`;
-  const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=song&limit=5&country=RO`);
-  if (!res.ok) throw new Error('http ' + res.status);
-  const { results = [] } = await res.json();
-  let best = null, top = 0;
-  for (const r of results) { const s = P.score(r, artist, song); if (s > top) { best = r; top = s; } }
-  return best && top >= 3.5 && best.trackTimeMillis ? best.trackTimeMillis : null;
-}
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function pump() {
   if (busy) return;
@@ -45,17 +38,21 @@ async function pump() {
   while (queue.length) {
     const now = Date.now();
     while (recent.length && now - recent[0] > 60000) recent.shift();
-    if (recent.length >= PER_MIN) { await new Promise((r) => setTimeout(r, 60000 - (now - recent[0]) + 50)); continue; }
+    if (recent.length >= PER_MIN) { await sleep(60000 - (now - recent[0]) + 50); continue; }
     const job = queue.shift();
-    const k = keyOf(job.artist, job.song);
-    if (read(k)) continue;
+    if (read(job.artist, job.song)) continue;
     recent.push(Date.now());
     try {
-      const ms = await fetchOne(job);
-      write(k, { ms, t: Date.now() });
-      listeners.forEach((fn) => fn(k, ms));
-    } catch { /* offline or rate-limited: keep the 4-minute guess */ }
-    if (queue.length) await new Promise((r) => setTimeout(r, GAP_MS));
+      const hit = await lookup(job.artist, job.song, { needMs: true });
+      const ms = hit?.ms || null;
+      mem.set(keyOf(job.artist, job.song), { ms });
+      listeners.forEach((fn) => fn(keyOf(job.artist, job.song), ms));
+    } catch (e) {
+      // The previews used up the shared budget: put the song back and retry later. Other errors
+      // (offline, http) keep the 4-minute guess.
+      if (e.message === 'rate') { queue.unshift(job); await sleep(RATE_BACKOFF_MS); continue; }
+    }
+    if (queue.length) await sleep(GAP_MS);
   }
   busy = false;
 }
@@ -64,7 +61,7 @@ async function pump() {
 export function want(songs) {
   for (const s of songs) {
     const k = keyOf(s.artist, s.song);
-    if (read(k) || queue.some((j) => keyOf(j.artist, j.song) === k)) continue;
+    if (read(s.artist, s.song) || queue.some((j) => keyOf(j.artist, j.song) === k)) continue;
     queue.push(s);
   }
   pump();
