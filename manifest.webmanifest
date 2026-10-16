@@ -1,0 +1,19 @@
+{
+  "name": "Piticu Dejun 400 · fan archive",
+  "short_name": "Piticu 400",
+  "description": "Unofficial fan archive of Piticu Dejun (Radio Guerrilla, Mondays 21:00): every playlist since 2020.",
+  "start_url": "./#/",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0C0A12",
+  "theme_color": "#0C0A12",
+  "lang": "en",
+  "categories": ["music", "entertainment"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
