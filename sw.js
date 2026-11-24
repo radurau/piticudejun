@@ -1,6 +1,6 @@
 // Service worker: stale-while-revalidate for app files and data, cached Google Fonts.
 // iTunes search results and preview audio are never cached here (the page caches lookups itself).
-const VERSION = 'pd-2026-11-24a'; // bump on every app release: the old app cache is dropped on activate
+const VERSION = 'pd-2026-11-24b'; // bump on every app release: the old app cache is dropped on activate
 const APP_CACHE = `app-${VERSION}`;
 const FONT_CACHE = 'fonts-v1';
 const CORE = [

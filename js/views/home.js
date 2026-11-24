@@ -45,11 +45,14 @@ export default {
             <div class="ring" aria-hidden="true">
               <svg viewBox="0 0 80 80"><circle class="track" cx="40" cy="40" r="34" fill="none" stroke-width="7"/>
                 <circle class="prog" cx="40" cy="40" r="34" fill="none" stroke-width="7" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${C.toFixed(1)}" data-offset="${(C * (1 - cd.progress)).toFixed(1)}"/></svg>
-              <b>#${cd.latest.n}</b>
+              <b>#${cd.aired}</b>
             </div>
             <div>
-              <div class="big">${cd.left ? html`<span class="hl">${cd.left}</span> ${cd.left === 1 ? 'Monday' : 'Mondays'} to #400` : html`<span class="hl">#400</span> is on air`}</div>
-              <p>${cd.left ? `Est. ${fmtDate(cd.date, 'day')}, 21:00 · if the weekly beat holds` : 'Happy 400th, Piticu Dejun!'}</p>
+              <div class="big">${cd.state === 'ahead' ? html`<span class="hl">${cd.left}</span> ${cd.left === 1 ? 'Monday' : 'Mondays'} to #400`
+                : html`<span class="hl">#400</span> ${cd.state === 'tonight' ? 'is tonight' : 'is done'}`}</div>
+              <p>${cd.state === 'ahead' ? `Est. ${fmtDate(cd.date, 'day')}, 21:00 · if the weekly beat holds`
+                : cd.state === 'tonight' ? 'Tonight at 21:00 on Radio Guerrilla. Happy 400th, Piticu Dejun!'
+                : `${cd.inArchive ? 'Aired' : 'Due'} ${fmtDate(cd.date, 'day')}. Happy 400th, Piticu Dejun!`}</p>
               <p><a class="prop-link" href="#/400">The proposed playlist for #400 ${icon('right')}</a></p>
             </div>
           </div>

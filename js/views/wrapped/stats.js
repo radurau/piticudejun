@@ -119,10 +119,9 @@ export function wrappedStats(db, year = null) {
   const longestNight = aired.reduce((m, e) => (e.tracks.length > m.tracks.length ? e : m));
 
   // Countdown dates for the remaining Mondays
-  const lastReg = lastOf(db.aired.filter((e) => e.regular));
   const upcoming = Array.from({ length: Math.min(cd.left, 16) }, (_, i) => {
-    const n = cd.latest.n + i + 1;
-    return { n, date: D.addDays(lastReg.date, 7 * (n - lastReg.n)) };
+    const n = cd.aired + i + 1;
+    return { n, date: D.addDays(cd.date, -7 * (cd.target - n)) };
   });
 
   return {

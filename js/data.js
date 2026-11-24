@@ -214,12 +214,28 @@ export function totals(db) {
 }
 
 /** Countdown to a milestone episode, assuming one show per week after the latest regular one. */
-export function countdown(db, target = 400) {
+/** Today's date (ISO) on the viewer's clock, not UTC: the show airs at 21:00 local time. */
+export function todayIso(d = new Date()) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+/**
+ * Countdown to episode `target`, measured from today's date rather than from the last archived show,
+ * so it stays right when the archive is a few weeks behind.
+ * `left` = Mondays still to go (0 on the day and after); `aired` = the episode number on air by now;
+ * `state` = 'ahead' | 'tonight' | 'done'; `inArchive` = the target show itself has been archived.
+ */
+export function countdown(db, target = 400, today = todayIso()) {
   const lastReg = lastOf(db.aired.filter((e) => e.regular));
   const latest = lastOf(db.aired);
-  const left = Math.max(0, target - latest.n);
-  const date = addDays(lastReg.date, 7 * (target - lastReg.n));
-  return { target, latest, left, date, progress: Math.min(1, latest.n / target) };
+  const hit = db.byN.get(target);
+  const inArchive = !!hit?.tracks.length;
+  const date = inArchive ? hit.date : addDays(lastReg.date, 7 * (target - lastReg.n));
+  const days = daysBetween(today, date);
+  const left = inArchive ? 0 : Math.max(0, Math.ceil(days / 7));
+  const state = inArchive || days < 0 ? 'done' : days === 0 ? 'tonight' : 'ahead';
+  const aired = Math.min(target, Math.max(latest.n, target - left));
+  return { target, latest, left, date, state, inArchive, aired, progress: Math.min(1, aired / target) };
 }
 
 // ---------------------------------------------------------------- song / artist

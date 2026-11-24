@@ -68,7 +68,17 @@ check('heatmap: one cell per Monday since 2020-04-13', () => {
   assert.equal(cells.length, weeks);
   assert.equal(cells.reduce((s, c) => s + c.eps.length, 0), db.aired.length);
 });
-check('countdown lands on Monday 2026-12-07 for #400', () => {
-  if (db.aired.at(-1).n === 392) assert.equal(D.countdown(db).date, '2026-12-07');
+check('countdown follows today\'s date, not the last archived show', () => {
+  const date = D.countdown(db).date;
+  if (!db.byN.get(400)?.tracks.length) {
+    assert.equal(new Date(D.parseDate(date)).getUTCDay(), 1, 'lands on a Monday');
+    const two = D.countdown(db, 400, D.addDays(date, -13));
+    assert.deepEqual([two.left, two.state, two.aired], [2, 'ahead', 398]);
+    assert.equal(D.countdown(db, 400, D.addDays(date, -7)).left, 1);
+    const night = D.countdown(db, 400, date);
+    assert.deepEqual([night.left, night.state, night.aired], [0, 'tonight', 400]);
+  }
+  const after = D.countdown(db, 400, D.addDays(date, 1));
+  assert.deepEqual([after.left, after.state, after.aired, after.progress], [0, 'done', 400, 1]);
 });
 console.log(`\n${pass} checks passed${process.exitCode ? ', some FAILED' : ''}`);

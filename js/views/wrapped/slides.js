@@ -357,7 +357,7 @@ function countdown(st) {
         ${line(html`Est. <b>${fmtDate(cd.date, 'day')}, 21:00</b>, if the weekly beat holds. <i>Hai că mai e puțin.</i>`, 4)}`
       : html`
         <div class="wr-big wr-in" style="${W(1)}"><span class="wr-num" style="--ch:4">#400</span></div>
-        <h2 class="wr-h wr-in" style="${W(2)}">is on air. La mulți ani, Piticu Dejun!</h2>`}
+        <h2 class="wr-h wr-in" style="${W(2)}">${cd.state === 'tonight' ? 'is on air tonight.' : 'is done.'} La mulți ani, Piticu Dejun!</h2>`}
     </div>`,
   };
 }
