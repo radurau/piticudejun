@@ -16,7 +16,7 @@ const PICKS = [
   ['Stereophonics', 'Dakota', 'Dan has opened the show with it more often than not.'],
   ['Faith No More', 'Land of Sunshine', 'The longest absence in the set.'],
   ['Twenty One Pilots', 'Nico and the Niners', 'Another song from the first archived show, rarely played since.'],
-  ['Depeche Mode', 'Never Let Me Down Again', 'Nici o emisiune fără Depeche Mode: the show favourite, in the slot Dan uses most.'],
+  ['Depeche Mode', 'Everything Counts', 'Nici o emisiune fără Depeche Mode: one of the most played songs on the show, in the slot Dan uses most.'],
   ['Oasis', 'Half the World Away', 'The fourth song from the first archived show; a breather after Depeche Mode.'],
   ['Muse', 'Plug In Baby', 'Lifts the energy back up before the end.'],
   ['Faithless', 'We Come 1', 'More often than not, it has opened or closed the show.'],
@@ -42,7 +42,7 @@ ${list}
 
 Câteva explicații:
 - Începe cu In One Ear, prima piesă din cea mai veche ediție pe care o am în arhivă (#${first}). Din aceeași ediție mai sunt încă trei: In Bloom, Nico and the Niners și Half the World Away.
-- Depeche Mode e pe poziția 8, unde îi pui tu cel mai des. Never Let Me Down Again e una dintre cele mai difuzate piese din emisiune${dmPlays}. Nici o emisiune fără Depeche Mode!
+- Depeche Mode e pe poziția 8, unde îi pui tu cel mai des. ${dm ? dm.title : 'Piesa'} e una dintre cele mai difuzate piese din emisiune${dmPlays}. Nici o emisiune fără Depeche Mode!
 - Se termină cu acordul final de pian din A Day in the Life.
 
 Lista e aici, cu ultima difuzare a fiecărei piese:
