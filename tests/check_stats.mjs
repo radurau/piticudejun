@@ -53,7 +53,7 @@ check('normalisation merges case, accents and curly quotes', () => {
 check('aliases resolve to one artist and one song', () => {
   assert.equal(db.artists.get('blink-182')?.name, 'Blink-182');
   assert.ok(!db.artists.has('blink 182'));
-  assert.equal(D.songBySlug(db, 'nirvana', 'heart-shaped-box')?.plays.length, 12);
+  assert.equal(D.songBySlug(db, 'nirvana', 'heart-shaped-box')?.plays.length, 13);
 });
 check('slugs are unique and round-trip', () => {
   for (const a of db.artists.values()) {

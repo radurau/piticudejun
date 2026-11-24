@@ -1,12 +1,12 @@
 {
- "plays": 3590,
- "episodes": 295,
- "regular_episodes": 280,
+ "plays": 3637,
+ "episodes": 299,
+ "regular_episodes": 284,
  "plays_per_year": {
   "2024": 587,
   "2023": 631,
   "2022": 633,
-  "2026": 395,
+  "2026": 442,
   "2025": 546,
   "2020": 203,
   "2021": 595
@@ -15,21 +15,21 @@
   "2024": 542,
   "2023": 631,
   "2022": 618,
-  "2026": 380,
+  "2026": 427,
   "2025": 458,
   "2020": 203,
   "2021": 566
  },
- "dm_plays": 273,
- "dm_regular_plays": 258,
- "dm_regular_episodes": 258,
+ "dm_plays": 277,
+ "dm_regular_plays": 262,
+ "dm_regular_episodes": 262,
  "top_songs_regular": {
   "counts": [
    15,
+   15,
    14,
    14,
-   14,
-   12,
+   13,
    12,
    12,
    11,
@@ -49,20 +49,21 @@
  },
  "top_artists_regular": {
   "counts": [
-   258,
-   61,
+   262,
+   63,
+   54,
    53,
-   53,
-   49,
+   51,
    47,
    43,
    39,
-   37,
+   38,
    37
   ],
   "above_cut": [
    "depeche mode",
    "faith no more",
+   "muse",
    "nirvana",
    "oasis",
    "placebo",
@@ -72,8 +73,8 @@
   ],
   "cut": 37
  },
- "artists_played_once": 278,
- "songs_played_once": 925,
- "artists": 658,
- "songs": 1690
+ "artists_played_once": 274,
+ "songs_played_once": 929,
+ "artists": 660,
+ "songs": 1703
 }
