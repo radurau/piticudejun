@@ -648,3 +648,12 @@ dialog.sheet::backdrop { background: rgba(6, 4, 10, .55); backdrop-filter: blur(
 }
 .cell.double { box-shadow: 0 0 0 2px var(--violet); }
 @media (min-width: 1024px) { .row .meter { max-width: 560px; } }
+
+/* ============================================================ #/400 proposal */
+.prop-acts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.v-prop .tt .m { white-space: normal; overflow: visible; line-height: 1.45; margin-top: 4px; }
+.prop-swaps { display: grid; gap: 10px; padding-left: 18px; list-style: disc; color: var(--text-2); max-width: 70ch; }
+.prop-swaps b { color: var(--text); font-weight: 600; }
+.prop-msg { white-space: pre-wrap; overflow-wrap: anywhere; font: 400 15px/1.55 var(--f-ui); max-width: 70ch; margin-bottom: 16px; }
+.prop-link { display: inline-flex; align-items: center; gap: 4px; color: var(--amber); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.prop-link .ic { width: 16px; height: 16px; }

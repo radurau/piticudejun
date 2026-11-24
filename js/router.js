@@ -16,6 +16,7 @@ export const routes = [
   { re: /^\/dm$/, view: 'dm', tab: 'dm' },
   { re: /^\/wrapped$/, view: 'wrapped', tab: 'wrapped' },
   { re: /^\/setlist$/, view: 'setlist', tab: 'setlist' },
+  { re: /^\/400$/, view: 'proposal', tab: 'setlist' },
 ];
 
 export function parseHash(hash = location.hash) {

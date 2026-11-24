@@ -50,6 +50,7 @@ export default {
             <div>
               <div class="big">${cd.left ? html`<span class="hl">${cd.left}</span> ${cd.left === 1 ? 'Monday' : 'Mondays'} to #400` : html`<span class="hl">#400</span> is on air`}</div>
               <p>${cd.left ? `Est. ${fmtDate(cd.date, 'day')}, 21:00 · if the weekly beat holds` : 'Happy 400th, Piticu Dejun!'}</p>
+              <p><a class="prop-link" href="#/400">The proposed playlist for #400 ${icon('right')}</a></p>
             </div>
           </div>
           <div class="eq" aria-hidden="true">${equalizer()}</div>
