@@ -1,12 +1,12 @@
 {
- "plays": 3637,
- "episodes": 299,
- "regular_episodes": 284,
+ "plays": 3647,
+ "episodes": 300,
+ "regular_episodes": 285,
  "plays_per_year": {
   "2024": 587,
   "2023": 631,
   "2022": 633,
-  "2026": 442,
+  "2026": 452,
   "2025": 546,
   "2020": 203,
   "2021": 595
@@ -15,17 +15,17 @@
   "2024": 542,
   "2023": 631,
   "2022": 618,
-  "2026": 427,
+  "2026": 437,
   "2025": 458,
   "2020": 203,
   "2021": 566
  },
- "dm_plays": 277,
- "dm_regular_plays": 262,
- "dm_regular_episodes": 262,
+ "dm_plays": 278,
+ "dm_regular_plays": 263,
+ "dm_regular_episodes": 263,
  "top_songs_regular": {
   "counts": [
-   15,
+   16,
    15,
    14,
    14,
@@ -49,14 +49,14 @@
  },
  "top_artists_regular": {
   "counts": [
-   262,
+   263,
    63,
    54,
    53,
    51,
    47,
    43,
-   39,
+   40,
    38,
    37
   ],
@@ -74,7 +74,7 @@
   "cut": 37
  },
  "artists_played_once": 274,
- "songs_played_once": 929,
+ "songs_played_once": 928,
  "artists": 660,
  "songs": 1703
 }
